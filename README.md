@@ -29,7 +29,7 @@ See module DocStrings for function descriptions and parameters <br/>
 
 ## Examples
 ```python
-import hibpwned
+from hibpwned import hibpwned
 
 myApp = hibpwned.Pwned('test@example.com', 'My_App')
 
