@@ -5,11 +5,11 @@ Visit https://haveibeenpwned.com/API/v2 to read the Acceptable Use Policy <br/>
 for rules regarding acceptable usage of this API. <br/>
 
 
-## Instalation
-
+## Installation
 ```
 pip install hibpwned
 ```
+
 
 ## Usage
 This module contains the class Pwned with functions: <br/>
@@ -26,9 +26,11 @@ of searchHashes, which returns a string object.
 
 See module DocStrings for function descriptions and parameters <br/>
 
+
 ## Examples
 ```python
 myApp = Pwned('test@example.com', 'My_App')
+
 myBreaches = myApp.searchAllBreaches()
 Breaches = myApp.allBreaches()
 adobe = myApp.singleBreach('adobe')
