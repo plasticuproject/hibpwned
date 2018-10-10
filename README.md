@@ -19,17 +19,19 @@ allBreaches <br/>
 singleBreach <br/>
 dataClasses <br/>
 searchPastes <br/>
+searchPassword <br/>
 searchHashes <br/>
 
 All functions return a JSON object containing relevent data, with the exception <br/>
-of searchHashes, which returns a string object.
+of searchPassword and searchHashes, which returns an integer and a string object, <br/>
+respectively. <br/>
 
 See module DocStrings for function descriptions and parameters <br/>
 
 
 ## Examples
 ```python
-from hibpwned import hibpwned
+import hibpwned
 
 myApp = hibpwned.Pwned('test@example.com', 'My_App')
 
@@ -38,6 +40,7 @@ Breaches = myApp.allBreaches()
 adobe = myApp.singleBreach('adobe')
 data = myApp.dataClasses()
 myPastes = myApp.searchPastes()
+password = myApp.searchPassword('BadPassword')
 myHashes = myApp.searchHashes('21BD1')
 ```
 
