@@ -1,7 +1,7 @@
 # hibpwned
 A friendly, low-level, fully functional, Python API wrapper for haveibeenpwned.com <br/>
 All data sourced from https://haveibeenpwned.com <br/>
-Visit https://haveibeenpwned.com/API/v2 to read the Acceptable Use Policy <br/>
+Visit https://haveibeenpwned.com/API/v3 to read the Acceptable Use Policy <br/>
 for rules regarding acceptable usage of this API. <br/>
 
 
@@ -9,6 +9,8 @@ for rules regarding acceptable usage of this API. <br/>
 ```
 pip install hibpwned
 ```
+Making calls to the HIBP API requires a key. You can purchase an HIBP-API-Key at <br/>
+https://haveibeenpwned.com/API/Key
 
 
 ## Usage
@@ -33,7 +35,7 @@ See module DocStrings for function descriptions and parameters <br/>
 ```python
 import hibpwned
 
-myApp = hibpwned.Pwned('test@example.com', 'My_App')
+myApp = hibpwned.Pwned('test@example.com', 'My_App', 'Your_API_Key')
 
 myBreaches = myApp.searchAllBreaches()
 Breaches = myApp.allBreaches()

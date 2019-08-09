@@ -1,6 +1,6 @@
 """A human friendly python API wrapper for https://haveibeenpwned.com
    All data is sourced from https://haveibeenpwned.com
-   Visit https://haveibeenpwned.com/API/v2 to read the Acceptable Use Policy
+   Visit https://haveibeenpwned.com/API/v3 to read the Acceptable Use Policy
    for rules regarding acceptable usage of this API.
 
    Copyright (C) 2018  plasticuproject@pm.me
@@ -27,6 +27,10 @@ class Pwned:
     arguments/search terms from https://haveibeenpwned.com. The
     searchPassword and searchHashes functions will return an integer
     and plaintext string of hashes, respectively.
+
+    Authorisation is required for all API requests. A HIBP subscription 
+    key is required to make an authorised call and can be obtained on 
+    the API key page at https://haveibeenpwned.com/API/Key.
 
     User must initialize the Pwned class with the account (email
     address being queried) and a User-Agent (the name of your
@@ -143,6 +147,8 @@ class Pwned:
     400    Bad request — the account does not comply with an acceptable
            format (i.e. it's an empty string).
 
+    401    Unauthorised — the API key provided was not valid
+
     403    Forbidden — no user agent has been specified in the request.
 
     404    Not found — the account could not be found and has therefore
@@ -167,15 +173,16 @@ class Pwned:
 
        Usage::
 
-         >>> foo = Pwned('test@example.com', 'My_App')
+         >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
          >>> data = foo.searchPassword('BadPassword')
     """
 
 
-    def __init__(self, account, agent):
+    def __init__(self, account, agent, key):
         self.account = account
         self.agent = agent
-        self.header = {'User-Agent' : self.agent}
+        self.key = key
+        self.header = {'User-Agent' : self.agent, "hibp-api-key": self.key}
 
 
     def searchAllBreaches(self, truncate=False, domain=None, unverified=False):
@@ -205,13 +212,13 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App')
+             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
              >>> data = foo.searchAllBreaches()
              >>> data = foo.searchAllBreaches(domain='adobe.com')
              >>> data = foo.searchAllBreaches(truncate=True, unverified=True)
         """
 
-        url = 'https://haveibeenpwned.com/api/v2/breachedaccount/'
+        url = 'https://haveibeenpwned.com/api/v3/breachedaccount/'
         if truncate == True:
             truncate = '?truncateResponse=true'
         else:
@@ -246,12 +253,12 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App')
+             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
              >>> data = foo.allBreaches()
              >>> data = foo.allBreaches(domain='adobe.com')
         """
 
-        url = 'https://haveibeenpwned.com/api/v2/breaches'
+        url = 'https://haveibeenpwned.com/api/v3/breaches'
         if domain == None:
             domain = ''
         else:
@@ -275,11 +282,11 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App')
+             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
              >>> data = foo.singleBreach('adobe')
         """
 
-        url = 'https://haveibeenpwned.com/api/v2/breach/'
+        url = 'https://haveibeenpwned.com/api/v3/breach/'
         resp = requests.get(url + name, headers=self.header)
         self.check(resp)
         if resp.status_code == 200:
@@ -296,11 +303,11 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App')
+             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
              >>> data = foo.dataClasses()
         """
 
-        url = 'http://haveibeenpwned.com/api/v2/dataclasses'
+        url = 'http://haveibeenpwned.com/api/v3/dataclasses'
         resp = requests.get(url, headers=self.header)
         self.check(resp)
         if resp.status_code == 200:
@@ -354,11 +361,11 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App')
+             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
              >>> data = foo.searchPastes()
         """
 
-        url = 'https://haveibeenpwned.com/api/v2/pasteaccount/'
+        url = 'https://haveibeenpwned.com/api/v3/pasteaccount/'
         resp = requests.get(url + self.account, headers=self.header)
         self.check(resp)
         if resp.status_code == 200:
@@ -390,7 +397,7 @@ class Pwned:
 
             Usage::
 
-              >>> foo = Pwned('test@example.com', 'My_App')
+              >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
               >>> data = foo.searchPassword('BadPassword')
         """
 
@@ -437,7 +444,7 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App')
+             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
              >>> data = foo.searchHashes('21BD1')
         """
 
@@ -461,7 +468,9 @@ class Pwned:
         try:
             if resp.status_code == 400:
                 print("Bad request: The account does not comply with an" + 
-                      " acceptable format (i.e. it's an empty string)")         
+                      " acceptable format (i.e. it's an empty string)")
+            elif resp.status_code == 401:
+                print("Unauthorised — the API key provided was not valid")
             elif resp.status_code == 403:
                 print("Forbidden: No user agent has" + 
                       " been specified in the request")            
@@ -469,7 +478,8 @@ class Pwned:
                 print("Not found: The account could not be found and" +
                       " has therefore not been pwned")           
             elif resp.status_code == 429:
-                print("Too many requests: The rate limit has been exceeded")
+                print("Too many requests: The rate limit has been exceeded\n")
+                print(resp.text)
         except RequestException:
             print("ERROR: Could not connect to server")
 
