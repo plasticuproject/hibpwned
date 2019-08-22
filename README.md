@@ -35,7 +35,7 @@ See module DocStrings for function descriptions and parameters <br/>
 ```python
 import hibpwned
 
-myApp = hibpwned.Pwned('test@example.com', 'My_App', 'Your_API_Key')
+myApp = hibpwned.Pwned('test@example.com', 'My_App', 'My_API_Key')
 
 myBreaches = myApp.searchAllBreaches()
 Breaches = myApp.allBreaches()

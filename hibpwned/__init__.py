@@ -173,7 +173,7 @@ class Pwned:
 
        Usage::
 
-         >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
+         >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
          >>> data = foo.searchPassword('BadPassword')
     """
 
@@ -212,7 +212,7 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
+             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
              >>> data = foo.searchAllBreaches()
              >>> data = foo.searchAllBreaches(domain='adobe.com')
              >>> data = foo.searchAllBreaches(truncate=True, unverified=True)
@@ -253,7 +253,7 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
+             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
              >>> data = foo.allBreaches()
              >>> data = foo.allBreaches(domain='adobe.com')
         """
@@ -282,7 +282,7 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
+             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
              >>> data = foo.singleBreach('adobe')
         """
 
@@ -303,7 +303,7 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
+             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
              >>> data = foo.dataClasses()
         """
 
@@ -361,7 +361,7 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
+             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
              >>> data = foo.searchPastes()
         """
 
@@ -397,7 +397,7 @@ class Pwned:
 
             Usage::
 
-              >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
+              >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
               >>> data = foo.searchPassword('BadPassword')
         """
 
@@ -444,7 +444,7 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "Your_API_Key")
+             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
              >>> data = foo.searchHashes('21BD1')
         """
 
