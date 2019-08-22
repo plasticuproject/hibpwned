@@ -28,8 +28,8 @@ class Pwned:
     searchPassword and searchHashes functions will return an integer
     and plaintext string of hashes, respectively.
 
-    Authorisation is required for all API requests. A HIBP subscription 
-    key is required to make an authorised call and can be obtained on 
+    Authorisation is required for all API requests. A HIBP subscription
+    key is required to make an authorised call and can be obtained on
     the API key page at https://haveibeenpwned.com/API/Key.
 
     User must initialize the Pwned class with the account (email
@@ -48,7 +48,7 @@ class Pwned:
                             which is unique across all other breaches.
                             This value never changes and may be used to
                             name dependent assets (such as images) but
-                            should not be shown directly to end users 
+                            should not be shown directly to end users
                             (see the "Title" attribute instead).
 
     Title         string    A descriptive title for the breach suitable
@@ -133,7 +133,7 @@ class Pwned:
                             attributes but it means that the data has
                             not come as a result of a security compromise.
 
-    
+
     RESPONSE CODES:
 
     Semantic HTTP response codes are used to indicate the result of the
@@ -169,7 +169,7 @@ class Pwned:
            searchPastes
            searchPassword
            searchHashes
-           
+
 
        Usage::
 
@@ -231,7 +231,7 @@ class Pwned:
             unverified = '?includeUnverified=true'
         else:
             unverified = ''
-        resp = requests.get(url + self.account + truncate + domain 
+        resp = requests.get(url + self.account + truncate + domain
                 + unverified , headers=self.header)
         self.check(resp)
         if resp.status_code == 200:
@@ -248,7 +248,7 @@ class Pwned:
         "domain='example.com'". This filters the result set to only
         breaches against the domain specified. It is possible that one
         site (and consequently domain), is compromised on multiple
-        occasions. 
+        occasions.
 
 
            Usage::
@@ -337,7 +337,7 @@ class Pwned:
                                 QuickLeak, JustPaste, AdHocUrl, OptOut
 
         Id            string    The ID of the paste as it was given at
-                                the source service. Combined with the 
+                                the source service. Combined with the
                                 "Source" attribute, this can be used to
                                 resolve the URL of the paste.
 
@@ -440,7 +440,7 @@ class Pwned:
 
         Each password is stored as a SHA-1 hash of a UTF-8 encoded
         password. The hash and password count are delimited with a
-        colon (:). 
+        colon (:).
 
            Usage::
 
@@ -467,16 +467,16 @@ class Pwned:
 
         try:
             if resp.status_code == 400:
-                print("Bad request: The account does not comply with an" + 
+                print("Bad request: The account does not comply with an" +
                       " acceptable format (i.e. it's an empty string)")
             elif resp.status_code == 401:
                 print("Unauthorised — the API key provided was not valid")
             elif resp.status_code == 403:
-                print("Forbidden: No user agent has" + 
-                      " been specified in the request")            
+                print("Forbidden: No user agent has" +
+                      " been specified in the request")
             elif resp.status_code == 404:
                 print("Not found: The account could not be found and" +
-                      " has therefore not been pwned")           
+                      " has therefore not been pwned")
             elif resp.status_code == 429:
                 print("Too many requests: The rate limit has been exceeded\n")
                 print(resp.text)
