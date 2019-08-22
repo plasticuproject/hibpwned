@@ -190,10 +190,17 @@ class Pwned:
         The most common use of the API is to return a list of all
         breaches a particular account has been involved in.
 
-        If the complete breach data is not required and you'd like to
-        reduce the response body size, you can request that the breach
-        entity be truncated so that only the name attribute is returned
-        by passing the "truncate=True" argument.
+        By default, only the name of the breach is returned rather than the
+        complete breach data, thus reducing the response body size by
+        approximately 98%. The name can then be used to either retrieve a
+        single breach or it can be found in the list of all breaches in the
+        system. If you'd like complete breach data returned in the API call,
+        a non-truncated response can be specified via query string parameter:
+
+        `?truncateResponse=false`
+
+        Note: In version 2 of the API this behaviour was the opposite -
+        responses were not truncated by default.
 
         The result set can also be filtered by domain by passing the
         "domain='example.com'" argument. This filters the result set to
@@ -220,9 +227,9 @@ class Pwned:
 
         url = 'https://haveibeenpwned.com/api/v3/breachedaccount/'
         if truncate == True:
-            truncate = '?truncateResponse=true'
-        else:
             truncate = ''
+        else:
+            truncate = '?truncateResponse=false'
         if domain == None:
             domain = ''
         else:
