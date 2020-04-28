@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/plasticuproject/hibpwned.svg?branch=dev)](https://travis-ci.org/plasticuproject/hibpwned)
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 # hibpwned
 A friendly, low-level, fully functional, Python API wrapper for haveibeenpwned.com <br/>
 All data sourced from https://haveibeenpwned.com <br/>
