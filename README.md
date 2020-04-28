@@ -1,4 +1,5 @@
 # hibpwned
+[![Build Status](https://travis-ci.org/plasticuproject/hibpwned.svg?branch=dev)](https://travis-ci.org/plasticuproject/hibpwned)
 A friendly, low-level, fully functional, Python API wrapper for haveibeenpwned.com <br/>
 All data sourced from https://haveibeenpwned.com <br/>
 Visit https://haveibeenpwned.com/API/v3 to read the Acceptable Use Policy <br/>
