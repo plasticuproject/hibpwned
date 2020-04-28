@@ -1,13 +1,13 @@
 language: python
 python:
-  3.6
-  3.7
-  3.8
-  pypy3
+- 3.6
+- 3.7
+- 3.8
+- pypy3
 install:
-  pip3 install -r requirements.txt
+- pip3 install -r requirements.txt
 script:
-  python test.py
+- python test.py
 deploy:
   provider: pypi
   user: __token__
