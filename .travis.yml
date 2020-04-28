@@ -1,10 +1,17 @@
 language: python
 python:
-- '3.6'
-- '3.7'
-- '3.8'
+- 3.6
+- 3.7
+- 3.8
 - pypy3
 install:
 - pip3 install -r requirements.txt
 script:
 - python test.py
+deploy:
+- provider: pypi
+- user: __token__
+- password:
+- - secure: YJdKg92i9XGAIvNQ5F+WV4EgnYaDiRyK8tMKuchv39xIJrAEguMeu8360rIzTp47bI7CwXUW3a8dER6q4X/7zt4/AidItAywIxPZ3+deqBJ1TujNwNC+1yp0Cl0jXLAPCQZMvJUqwzHGWgh9Y9mZ6bUXmBl/pHkPLoy5u7BoDuTS+O+iZssMLIpZxwQOMLvQNXh2cSk3pouY+YBggAD+rnZeIq8q8RL7gXQ3CLhw4nXKejqZg7wXGkNrXJ8mTZsuRpg+BwJm7iogsuVdx/q4ghtrumRCjgSt715l0oy7ZG2DtG8ybAdtCGqNs4zXNxZCbYID4mioYR1SbKeQm38iTQj2xIZFkewfZxCiq3RMeM7tcGXpWlDQLKDNZdHggHkpOJbdzenNz7CrG+OSLSuGXC8Nqr+SkrB7bYKHAKj9uaiFIst+xJvvrzalqNVu3FBN/rSWJ60AsllWN61eHqMTKsOl7t8C2lJLnm/AROAP7ggNZSixZ6BgBtMElfoOOx9dhuYxhQ/JTs+s30CBbhwAhynFiC6aFCqvCsSCZDzaCl55A/3dAGx3dLNMEyG81txgVPmpecAi/rkz+iP/TOeTFM8sLQ6ygF+z2erkS2CJsUiWqSsHAOEpOuwAVsF16KSb0/aopJxkWQS97zldxA8kTPA/YutOW8N19ppmxK+r17I=
+- on:
+- - branch: master
