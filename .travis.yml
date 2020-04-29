@@ -14,4 +14,4 @@ deploy:
   on:
     condition: $TRAVIS_PYTHON_VERSION == '3.6'
     repo: plasticuproject/hibpwned
-    tags: true
+
