@@ -1,6 +1,6 @@
 from setuptools import setup
 
-version = '1.1.5'
+version = '1.1.6'
 
 setup(name='hibpwned',
       packages=['hibpwned'],
