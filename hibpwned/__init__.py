@@ -147,7 +147,7 @@ class Pwned:
     400    Bad request — the account does not comply with an acceptable
            format (i.e. it's an empty string).
 
-    401    Unauthorised — the API key provided was not valid
+    401    Unauthorized — the API key provided was not valid
 
     403    Forbidden — no user agent has been specified in the request.
 
@@ -477,7 +477,7 @@ class Pwned:
                 print("Bad request: The account does not comply with an" +
                       " acceptable format (i.e. it's an empty string)")
             elif resp.status_code == 401:
-                print("Unauthorised — the API key provided was not valid")
+                print("Unauthorized — the API key provided was not valid")
             elif resp.status_code == 403:
                 print("Forbidden: No user agent has" +
                       " been specified in the request")

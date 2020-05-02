@@ -17,7 +17,10 @@
 
 import hibpwned
 import unittest
-pwned = hibpwned.Pwned('test@example.com', 'wrapper_test', 'No Key')
+email = 'test@example.com'
+app_name = 'wrapper_test'
+key = 'No Key'
+pwned = hibpwned.Pwned(email, app_name, key)
 
 
 class TestApiCalls(unittest.TestCase):
@@ -39,6 +42,10 @@ class TestApiCalls(unittest.TestCase):
         name = pwned.singleBreach('adobe')['Name']
         self.assertEqual(name, 'Adobe')
 
+        # test for 404 when searching for breach name not in the database
+        name = pwned.singleBreach('bullshit')
+        self.assertEqual(name, 404)
+
 
     def test_allBreaches(self):
 
@@ -46,7 +53,11 @@ class TestApiCalls(unittest.TestCase):
         # with the length of the amount of breaches found, which
         # as of 04/28/2020 should be more than 439
         length = len(pwned.allBreaches())
+        domain = pwned.allBreaches(domain='adobe.com')
         self.assertTrue(length > 439)
+
+        # Test searching for vail name returns name
+        self.assertEqual(domain[0]['Name'], 'Adobe')
 
 
     def test_searchHashes(self):
@@ -63,6 +74,25 @@ class TestApiCalls(unittest.TestCase):
         # object
         lst = type(pwned.dataClasses())
         self.assertTrue(lst, 'list')
+
+
+    def test_searchAllBreaches(self):
+
+        # test breach search with no key errors
+        no_key = pwned.searchAllBreaches()
+        no_key_name = pwned.searchAllBreaches(domain='adobe.com')
+        no_key_trunc_unver = pwned.searchAllBreaches(truncate=True, unverified=True)
+        self.assertEqual(no_key, 401)
+        self.assertEqual(no_key_name, 401)
+        self.assertEqual(no_key_trunc_unver, 401)
+
+
+    def test_searchPastes(self):
+
+        # test paste search errors with no key
+        no_key = pwned.searchPastes()
+        self.assertEqual(no_key, 401)
+
 
 if __name__ == '__main__':
     unittest.main()
