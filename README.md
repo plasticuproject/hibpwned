@@ -1,8 +1,10 @@
 [![Build Status](https://travis-ci.org/plasticuproject/hibpwned.svg?branch=master)](https://travis-ci.org/plasticuproject/hibpwned)
+[![Python 3.7](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 [![PyPI version](https://badge.fury.io/py/hibpwned.svg)](https://badge.fury.io/py/hibpwned)
 [![Downloads](https://pepy.tech/badge/hibpwned)](https://pepy.tech/project/hibpwned)
 [![Coverage Status](https://coveralls.io/repos/github/plasticuproject/hibpwned/badge.svg?branch=master)](https://coveralls.io/github/plasticuproject/hibpwned?branch=master)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/plasticuproject/hibpwned.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/plasticuproject/hibpwned/context:python)
 # hibpwned
 A friendly, low-level, fully functional, Python API wrapper for haveibeenpwned.com <br/>
 All data sourced from https://haveibeenpwned.com <br/>

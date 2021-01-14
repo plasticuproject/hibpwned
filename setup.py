@@ -1,6 +1,6 @@
 from setuptools import setup
 
-version = '1.1.9'
+version = '1.2.0'
 
 setup(name='hibpwned',
       packages=['hibpwned'],
@@ -16,8 +16,7 @@ setup(name='hibpwned',
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
-          'License :: OSI Approved :: '
-          'GNU General Public License v3 or later (GPLv3+)',
+          'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
           'Programming Language :: Python :: 3',
           'Topic :: Communications :: Chat',
           'Topic :: Utilities'

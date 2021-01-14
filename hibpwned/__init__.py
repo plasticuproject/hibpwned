@@ -17,7 +17,6 @@
 
 import hashlib
 import requests
-from requests import RequestException
 
 
 class Pwned:
@@ -230,7 +229,7 @@ class Pwned:
             truncate = ''
         else:
             truncate = '?truncateResponse=false'
-        if domain == None:
+        if domain is None:
             domain = ''
         else:
             domain = '?domain=' + domain
@@ -266,7 +265,7 @@ class Pwned:
         """
 
         url = 'https://haveibeenpwned.com/api/v3/breaches'
-        if domain == None:
+        if domain is None:
             domain = ''
         else:
             domain = '?domain=' + domain
@@ -487,6 +486,6 @@ class Pwned:
             elif resp.status_code == 429:
                 print("Too many requests: The rate limit has been exceeded\n")
                 print(resp.text)
-        except RequestException:
+        except requests.RequestException:
             print("ERROR: Could not connect to server")
 
