@@ -5,6 +5,8 @@
 [![Downloads](https://pepy.tech/badge/hibpwned)](https://pepy.tech/project/hibpwned)
 [![Coverage Status](https://coveralls.io/repos/github/plasticuproject/hibpwned/badge.svg?branch=master)](https://coveralls.io/github/plasticuproject/hibpwned?branch=master)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/plasticuproject/hibpwned.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/plasticuproject/hibpwned/context:python)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=plasticuproject_hibpwned&metric=alert_status)](https://sonarcloud.io/dashboard?id=plasticuproject_hibpwned)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=plasticuproject_hibpwned&metric=security_rating)](https://sonarcloud.io/dashboard?id=plasticuproject_hibpwned)
 # hibpwned
 A friendly, low-level, fully functional, Python API wrapper for haveibeenpwned.com <br/>
 All data sourced from https://haveibeenpwned.com <br/>

@@ -1,6 +1,6 @@
 from setuptools import setup
 
-version = '1.2.1'
+version = '1.2.2'
 
 setup(name='hibpwned',
       packages=['hibpwned'],
@@ -10,7 +10,7 @@ setup(name='hibpwned',
       long_description_content_type='text/markdown',
       author='plasticuproject',
       author_email='plasticuproject@pm.me',
-      url='http://github.com/plasticuproject/hibpwned',
+      url='https://github.com/plasticuproject/hibpwned',
       download_url='https://github.com/plasticuproject/hibpwned/archive/v' + version + '.tar.gz',
       keywords=['hibp', 'haveibeenpwned', 'api', 'wrapper'],
       classifiers=[

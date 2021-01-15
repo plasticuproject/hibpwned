@@ -313,7 +313,7 @@ class Pwned:
              >>> data = foo.dataClasses()
         """
 
-        url = 'http://haveibeenpwned.com/api/v3/dataclasses'
+        url = 'https://haveibeenpwned.com/api/v3/dataclasses'
         resp = requests.get(url, headers=self.header)
         self.check(resp)
         if resp.status_code == 200:
