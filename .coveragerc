@@ -2,4 +2,3 @@
 omit =
   */site-packages/*
   */distutils/*
-  test.py
