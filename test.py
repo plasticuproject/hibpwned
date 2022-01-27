@@ -138,7 +138,7 @@ class TestApiCalls(unittest.TestCase):
     def test_mock_error(self, mock_get: mock.MagicMock) -> None:
         """Test a non-recognized mock endpoint will return a
         status code 404."""
-        bad_url = requests.get("http://www.fart.com")
+        bad_url = requests.get("https://www.fart.com")
         self.assertEqual(bad_url.status_code, 404)
 
     @mock.patch("hibpwned.requests.get", side_effect=mocked_requests_get)
