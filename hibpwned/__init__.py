@@ -3,7 +3,7 @@
    Visit https://haveibeenpwned.com/API/v3 to read the Acceptable Use Policy
    for rules regarding acceptable usage of this API.
 
-   Copyright (C) 2018  plasticuproject@pm.me
+   Copyright (C) 2022  plasticuproject@pm.me
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,17 +14,39 @@
    GNU General Public License for more details.
 """
 
-
 import hashlib
+from typing import Dict, List, Union, Optional
 import requests
 
 
+def _check(resp: requests.models.Response) -> None:
+    """Helper function to check the response code and prints anything
+    other than a 200 OK."""
+
+    try:
+        if resp.status_code == 400:
+            print("Bad request: The account does not comply with an" +
+                  " acceptable format (i.e. it's an empty string)")
+        elif resp.status_code == 401:
+            print("Unauthorized — the API key provided was not valid")
+        elif resp.status_code == 403:
+            print("Forbidden: No user agent has" +
+                  " been specified in the request")
+        elif resp.status_code == 404:
+            print("Not found: The account could not be found and" +
+                  " has therefore not been pwned")
+        elif resp.status_code == 429:
+            print("Too many requests: The rate limit has been exceeded\n")
+            print(resp.text)
+    except requests.RequestException:
+        print("ERROR: Could not connect to server")
+
+
 class Pwned:
-    """
-    All functions, with the exception of searchPassword and
-    searchHashes, return JSON formated data related to the function and
+    """All functions, with the exception of search_password and
+    search_hashes, return JSON formated data related to the function and
     arguments/search terms from https://haveibeenpwned.com. The
-    searchPassword and searchHashes functions will return an integer
+    search_password and search_hashes functions will return an integer
     and plaintext string of hashes, respectively.
 
     Authorisation is required for all API requests. A HIBP subscription
@@ -161,32 +183,57 @@ class Pwned:
 
        Class Functions:: (see function DocStrings for details)
 
-           searchAllBreaches
-           allBreaches
-           singleBreach
-           dataClasses
-           searchPastes
-           searchPassword
-           searchHashes
+           search_all_breaches
+           all_breaches
+           single_breach
+           data_classes
+           search_pastes
+           search_password
+           search_hashes
 
 
        Usage::
 
-         >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
-         >>> data = foo.searchPassword('BadPassword')
+         >>> foo = Pwned("test@example.com", "My_App", "My_API_Key")
+         >>> data = foo.search_password("BadPassword")
     """
+    ReturnAlias = (Union[int, List[Dict[str, Union[str, int, bool]]]])
+    AltReturnAlias = (Union[int, List[Dict[str, Union[str, int, bool]]],
+                            List[str]])
+    DataAlias = (Union[List[Dict[str, Union[str, int, bool]]],
+                       Dict[str, Union[str, int, bool]]])
+    AltDataAlias = (Union[List[Dict[str, Union[str, int, bool]]],
+                          Dict[str, Union[str, int, bool]], List[str]])
+    url: str
+    resp: requests.models.Response
+    truncate_string: str
+    domain_string: str
+    unverified_string: str
+    classes: List[str]
+    hashes: str
+    hash_list: List[str]
+    hexdig: str
+    hsh: str
+    pnum: str
+    data: DataAlias
+    alt_data: AltDataAlias
 
-
-    def __init__(self, account, agent, key):
+    def __init__(self, account: str, agent: str, key: str) -> None:
         self.account = account
         self.agent = agent
         self.key = key
-        self.header = {'User-Agent' : self.agent, "hibp-api-key": self.key}
+        self.header: Dict[str, str] = {
+            "User-Agent": self.agent,
+            "hibp-api-key": self.key
+        }
 
-
-    def searchAllBreaches(self, truncate=False, domain=None, unverified=False):
-        """
-        The most common use of the API is to return a list of all
+    # pylint: disable=undefined-variable
+    def search_all_breaches(
+            self,
+            truncate: Optional[bool] = False,
+            domain: Optional[str] = None,
+            unverified: Optional[bool] = False) -> AltReturnAlias:
+        """The most common use of the API is to return a list of all
         breaches a particular account has been involved in.
 
         By default, only the name of the breach is returned rather than the
@@ -219,37 +266,37 @@ class Pwned:
            Usage::
 
              >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
-             >>> data = foo.searchAllBreaches()
-             >>> data = foo.searchAllBreaches(domain='adobe.com')
-             >>> data = foo.searchAllBreaches(truncate=True, unverified=True)
+             >>> data = foo.search_all_breaches()
+             >>> data = foo.search_all_breaches(domain='adobe.com')
+             >>> data = foo.search_all_breaches(truncate=True, unverified=True)
         """
-
-        url = 'https://haveibeenpwned.com/api/v3/breachedaccount/'
-        if truncate == True:
-            truncate = ''
+        url = "https://haveibeenpwned.com/api/v3/breachedaccount/"
+        if truncate:
+            truncate_string = ""
         else:
-            truncate = '?truncateResponse=false'
-        if domain is None:
-            domain = ''
+            truncate_string = "?truncateResponse=false"
+        if not domain:
+            domain_string = ""
         else:
-            domain = '?domain=' + domain
-        if unverified == True:
-            unverified = '?includeUnverified=true'
+            domain_string = "?domain=" + domain
+        if unverified:
+            unverified_string = "?includeUnverified=true"
         else:
-            unverified = ''
-        resp = requests.get(url + self.account + truncate + domain
-                + unverified , headers=self.header)
-        self.check(resp)
+            unverified_string = ""
+        resp = requests.get(url + self.account + truncate_string +
+                            domain_string + unverified_string,
+                            headers=self.header)
+        _check(resp)
         if resp.status_code == 200:
-            data = resp.json()
-            return data
-        else:
-            return resp.status_code
+            alt_data = resp.json()
+            if not isinstance(alt_data, list):
+                return [alt_data]
+            return alt_data
+        return resp.status_code
 
-
-    def allBreaches(self, domain=None):
-        """
-        Retrieves all breached sites from the system. The result set
+    # pylint: disable=undefined-variable
+    def all_breaches(self, domain: Optional[str] = None) -> ReturnAlias:
+        """Retrieves all breached sites from the system. The result set
         can also be filtered by domain by passing the argument
         "domain='example.com'". This filters the result set to only
         breaches against the domain specified. It is possible that one
@@ -259,26 +306,24 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
-             >>> data = foo.allBreaches()
-             >>> data = foo.allBreaches(domain='adobe.com')
+             >>> foo = Pwned("test@example.com", "My_App", "My_API_Key")
+             >>> data = foo.all_breaches()
+             >>> data = foo.all_breaches(domain="adobe.com")
         """
-
-        url = 'https://haveibeenpwned.com/api/v3/breaches'
-        if domain is None:
-            domain = ''
+        url = "https://haveibeenpwned.com/api/v3/breaches"
+        if not domain:
+            domain_string = ""
         else:
-            domain = '?domain=' + domain
-        resp = requests.get(url + domain, headers=self.header)
-        self.check(resp)
+            domain_string = "?domain=" + domain
+        resp = requests.get(url + domain_string, headers=self.header)
+        _check(resp)
         if resp.status_code == 200:
             data = resp.json()
-            return data
-        else:
-            return resp.status_code
+            if isinstance(data, list):
+                return data
+        return resp.status_code
 
-
-    def singleBreach(self, name):
+    def single_breach(self, name: str) -> ReturnAlias:
         """
         Returns a single breached site queried by name. Sometimes just
         a single breach is required and this can be retrieved by the
@@ -288,44 +333,39 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
-             >>> data = foo.singleBreach('adobe')
+             >>> foo = Pwned("test@example.com", "My_App", "My_API_Key")
+             >>> data = foo.single_breach("adobe")
         """
-
-        url = 'https://haveibeenpwned.com/api/v3/breach/'
+        url = "https://haveibeenpwned.com/api/v3/breach/"
         resp = requests.get(url + name, headers=self.header)
-        self.check(resp)
+        _check(resp)
         if resp.status_code == 200:
             data = resp.json()
+            if not isinstance(data, list):
+                return [data]
             return data
-        else:
-            return resp.status_code
+        return resp.status_code
 
-
-    def dataClasses(self):
-        """
-        Returns all data classes in the system.
+    def data_classes(self) -> Union[int, List[str]]:
+        """Returns all data classes in the system.
 
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
-             >>> data = foo.dataClasses()
+             >>> foo = Pwned("test@example.com", "My_App", "My_API_Key")
+             >>> data = foo.data_classes()
         """
-
-        url = 'https://haveibeenpwned.com/api/v3/dataclasses'
+        url = "https://haveibeenpwned.com/api/v3/dataclasses"
         resp = requests.get(url, headers=self.header)
-        self.check(resp)
+        _check(resp)
         if resp.status_code == 200:
-            data = resp.json()
-            return data
-        else:
-            return resp.status_code
+            classes = resp.json()
+            if isinstance(classes, list):
+                return classes
+        return resp.status_code
 
-
-    def searchPastes(self):
-        """
-        Returns all pastes for an account. Unlike searching for
+    def search_pastes(self) -> ReturnAlias:
+        """Returns all pastes for an account. Unlike searching for
         breaches, usernames that are not email addresses cannot be
         searched for. Searching an account for pastes always returns a
         collection of the paste entity. The collection is sorted
@@ -361,29 +401,27 @@ class Pwned:
         EmailCount     integer  The number of emails that were found
                                 when processing the paste. Emails are
                                 extracted by using the regular
-                                expression \b+(?!^.{256})[a-zA-Z0-9\.\-
-                               _\+]+@[a-zA-Z0-9\.\-_]+\.[a-zA-Z]+\b
+                                expression \b+(?!^.{256})[a-zA-Z0-9\\.\\-
+                                _\\+]+@[a-zA-Z0-9\\.\\-_]+\\.[a-zA-Z]+\b
 
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
-             >>> data = foo.searchPastes()
+             >>> foo = Pwned("test@example.com", "My_App", "My_API_Key")
+             >>> data = foo.search_pastes()
         """
-
-        url = 'https://haveibeenpwned.com/api/v3/pasteaccount/'
+        url = "https://haveibeenpwned.com/api/v3/pasteaccount/"
         resp = requests.get(url + self.account, headers=self.header)
-        self.check(resp)
+        _check(resp)
         if resp.status_code == 200:
             data = resp.json()
+            if not isinstance(data, list):
+                return [data]
             return data
-        else:
-            return resp.status_code
+        return resp.status_code
 
-
-    def searchPassword(self, password):
-        """
-        Returns an integer of how many times the password appears in
+    def search_password(self, password: str) -> Union[int, str]:
+        """Returns an integer of how many times the password appears in
         the Pwned Passwords repository, where each password is stored
         as a SHA-1 hash of a UTF-8 encoded password. When a password
         hash with the same first 5 characters is found in the Pwned
@@ -403,32 +441,26 @@ class Pwned:
 
             Usage::
 
-              >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
-              >>> data = foo.searchPassword('BadPassword')
+              >>> foo = Pwned("test@example.com", "My_App", "My_API_Key")
+              >>> data = foo.search_password("BadPassword")
         """
-
-        url = 'https://api.pwnedpasswords.com/range/'
-        hash_object = hashlib.sha1(bytes(password, encoding='utf-8'))
+        url = "https://api.pwnedpasswords.com/range/"
+        hash_object = hashlib.sha1(bytes(password, encoding="utf-8"))
         hexdig = hash_object.hexdigest()
         hexdig = hexdig.upper()
         hsh = hexdig[:5]
-        pnum = 0
         resp = requests.get(url + hsh, headers=self.header)
-        self.check(resp)
+        _check(resp)
         if resp.status_code == 200:
-            data = resp.text
-            data = data.splitlines()
-            for item in data:
+            hash_list = resp.text.splitlines()
+            for item in hash_list:
                 if item[0:35] == hexdig[5:]:
                     pnum = item[36:]
             return pnum
-        else:
-            return resp.status_code
+        return resp.status_code
 
-
-    def searchHashes(self, hsh):
-        """
-        Returns a string of plaintext hashes which are suffixes to the
+    def search_hashes(self, hsh: str) -> Union[int, str]:
+        """Returns a string of plaintext hashes which are suffixes to the
         first 5 characters of the searched hash argument. When a
         password hash with the same first 5 characters is found in the
         Pwned Passwords repository, the API will respond with an HTTP
@@ -450,42 +482,14 @@ class Pwned:
 
            Usage::
 
-             >>> foo = Pwned('test@example.com', 'My_App', "My_API_Key")
-             >>> data = foo.searchHashes('21BD1')
+             >>> foo = Pwned("test@example.com", "My_App", "My_API_Key")
+             >>> data = foo.search_hashes("21BD1")
         """
-
-        url = 'https://api.pwnedpasswords.com/range/'
+        url = "https://api.pwnedpasswords.com/range/"
         hsh = hsh[:5]
         resp = requests.get(url + hsh, headers=self.header)
-        self.check(resp)
+        _check(resp)
         if resp.status_code == 200:
-            data = resp.text
-            return data
-        else:
-            return resp.status_code
-
-
-    def check(self, resp):
-        """
-        Method to check the response code and prints anything other
-        than a 200 OK.
-        """
-
-        try:
-            if resp.status_code == 400:
-                print("Bad request: The account does not comply with an" +
-                      " acceptable format (i.e. it's an empty string)")
-            elif resp.status_code == 401:
-                print("Unauthorized — the API key provided was not valid")
-            elif resp.status_code == 403:
-                print("Forbidden: No user agent has" +
-                      " been specified in the request")
-            elif resp.status_code == 404:
-                print("Not found: The account could not be found and" +
-                      " has therefore not been pwned")
-            elif resp.status_code == 429:
-                print("Too many requests: The rate limit has been exceeded\n")
-                print(resp.text)
-        except requests.RequestException:
-            print("ERROR: Could not connect to server")
-
+            hashes = resp.text
+            return hashes
+        return resp.status_code

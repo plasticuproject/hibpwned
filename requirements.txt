@@ -1,9 +1,1 @@
-certifi==2020.4.5.1
-chardet==3.0.4
-coverage==4.5.4
-idna==2.9
-python-coveralls==2.9.3
-PyYAML==5.4
-requests==2.25.1
-six==1.14.0
-urllib3==1.26.5
+requests==2.27.1

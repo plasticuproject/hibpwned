@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/plasticuproject/hibpwned.svg?branch=master)](https://travis-ci.org/plasticuproject/hibpwned)
-[![Python 3.7](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![build](https://github.com/plasticuproject/hibpwned/actions/workflows/tests.yml/badge.svg)](https://github.com/plasticuproject/hibpwned/actions/workflows/tests.yml)
+[![Python 3.8](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 [![PyPI version](https://badge.fury.io/py/hibpwned.svg)](https://badge.fury.io/py/hibpwned)
 [![Downloads](https://pepy.tech/badge/hibpwned)](https://pepy.tech/project/hibpwned)
@@ -25,16 +25,16 @@ https://haveibeenpwned.com/API/Key
 ## Usage
 This module contains the class Pwned with functions: <br/>
 
-searchAllBreaches <br/>
-allBreaches <br/>
-singleBreach <br/>
-dataClasses <br/>
-searchPastes <br/>
-searchPassword <br/>
-searchHashes <br/>
+search_all_breaches <br/>
+all_breaches <br/>
+single_breach <br/>
+data_classes <br/>
+search_pastes <br/>
+search_password <br/>
+search_hashes <br/>
 
-All functions return a JSON object containing relevent data, with the exception <br/>
-of searchPassword and searchHashes, which returns an integer and a string object, <br/>
+All functions return a JSON objects containing relevent data, with the exception <br/>
+of search_password and search_hashes, which returns an integer and a string object, <br/>
 respectively. <br/>
 
 See module DocStrings for function descriptions and parameters <br/>
@@ -44,14 +44,14 @@ See module DocStrings for function descriptions and parameters <br/>
 ```python
 import hibpwned
 
-myApp = hibpwned.Pwned('test@example.com', 'My_App', 'My_API_Key')
+my_app = hibpwned.Pwned("test@example.com", "My_App", "My_API_Key")
 
-myBreaches = myApp.searchAllBreaches()
-Breaches = myApp.allBreaches()
-adobe = myApp.singleBreach('adobe')
-data = myApp.dataClasses()
-myPastes = myApp.searchPastes()
-password = myApp.searchPassword('BadPassword')
-myHashes = myApp.searchHashes('21BD1')
+my_breaches = my_app.search_all_breaches()
+breaches = my_app.all_breaches()
+adobe = my_app.single_breach("adobe")
+data = my_app.data_classes()
+my_pastes = my_app.search_pastes()
+password = my_app.search_password("BadPassword")
+my_hashes = my_app.search_hashes("21BD1")
 ```
 
