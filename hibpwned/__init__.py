@@ -343,7 +343,7 @@ class Pwned:
             data = resp.json()
             if not isinstance(data, list):
                 return [data]
-            return data
+            # return data  # Pretty sure will never hit
         return resp.status_code
 
     def data_classes(self) -> Union[int, List[str]]:
@@ -446,8 +446,9 @@ class Pwned:
         """
         url = "https://api.pwnedpasswords.com/range/"
         hash_object = hashlib.sha1(  # lgtm[py/weak-sensitive-data-hashing]
-            bytes(password,  # lgtm[py/weak-sensitive-data-hashing]
-                  encoding="utf-8"))  # lgtm[py/weak-sensitive-data-hashing]
+            bytes(
+                password,  # lgtm[py/weak-sensitive-data-hashing]
+                encoding="utf-8"))  # lgtm[py/weak-sensitive-data-hashing]
         hexdig = hash_object.hexdigest()
         hexdig = hexdig.upper()
         hsh = hexdig[:5]
