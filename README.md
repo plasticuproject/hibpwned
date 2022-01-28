@@ -33,7 +33,7 @@ search_pastes <br/>
 search_password <br/>
 search_hashes <br/>
 
-All functions return a JSON objects containing relevent data, with the exception <br/>
+All functions return a list of JSON objects containing relevent data, with the exception <br/>
 of search_password and search_hashes, which returns an integer and a string object, <br/>
 respectively. <br/>
 

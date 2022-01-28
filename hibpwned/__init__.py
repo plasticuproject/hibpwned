@@ -37,7 +37,7 @@ def _check(resp: requests.models.Response) -> None:
                   " has therefore not been pwned")
         elif resp.status_code == 429:
             print("Too many requests: The rate limit has been exceeded\n")
-            print(resp.text)  # lgtm [py/clear-text-logging-sensitive-data]
+            print(resp.text)  # lgtm[py/clear-text-logging-sensitive-data]
     except requests.RequestException:
         print("ERROR: Could not connect to server")
 
@@ -447,7 +447,7 @@ class Pwned:
         url = "https://api.pwnedpasswords.com/range/"
         hash_object = hashlib.sha1(
             bytes(password,
-                  encoding="utf-8"))  # lgtm [py/weak-sensitive-data-hashing]
+                  encoding="utf-8"))  # lgtm[py/weak-sensitive-data-hashing]
         hexdig = hash_object.hexdigest()
         hexdig = hexdig.upper()
         hsh = hexdig[:5]
