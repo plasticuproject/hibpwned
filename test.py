@@ -24,6 +24,7 @@ import hibpwned
 # pylint: disable=unused-argument
 def mocked_requests_get(*args: Any, **kwargs: Any) -> Any:
     """This method will be used by the mock to replace requests.get."""
+    fake_email: str = "test@example.com"
 
     class MockResponse:  # pylint: disable=too-few-public-methods
         """Mock API responses."""
@@ -39,13 +40,13 @@ def mocked_requests_get(*args: Any, **kwargs: Any) -> Any:
             return self.response_data
 
     if args[0] == ("https://haveibeenpwned.com/api/v3/breachedaccount/" +
-                   "test@example.com"):
+                   fake_email):
         return MockResponse(["FakeSite"], 200)
     if args[0] == ("https://haveibeenpwned.com/api/v3/breachedaccount/" +
-                   "test@example.com?truncateResponse=false"):
+                   fake_email + "?truncateResponse=false"):
         return MockResponse({"testKey": "testValue"}, 200)
     if args[0] == ("https://haveibeenpwned.com/api/v3/pasteaccount/" +
-                   "test@example.com"):
+                   fake_email):
         return MockResponse({"testKey": "testValue"}, 200)
     return MockResponse(None, 404)
 
