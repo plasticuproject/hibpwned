@@ -446,7 +446,7 @@ class Pwned:
         """
         url = "https://api.pwnedpasswords.com/range/"
         hash_object = hashlib.sha1(  # lgtm[py/weak-sensitive-data-hashing]
-            bytes(
+            bytes(  # lgtm[py/weak-sensitive-data-hashing]
                 password,  # lgtm[py/weak-sensitive-data-hashing]
                 encoding="utf-8"))  # lgtm[py/weak-sensitive-data-hashing]
         hexdig = hash_object.hexdigest()
