@@ -1,16 +1,16 @@
 """Setup file"""
 from setuptools import setup  # type: ignore
 
-VERSION = "1.3.3"
+VERSION = "1.3.4"
 
 with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+    LONG_DESCRIPTION = fh.read()
 
 setup(name="hibpwned",
       packages=["hibpwned"],
       version=VERSION,
       description="A human friendly Python API wrapper for haveibeenpwned.com",
-      long_description=long_description,
+      long_description=LONG_DESCRIPTION,
       long_description_content_type="text/markdown",
       author="plasticuproject",
       author_email="plasticuproject@pm.me",
