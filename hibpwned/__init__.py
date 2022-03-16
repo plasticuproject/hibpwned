@@ -457,12 +457,9 @@ class Pwned:
         if resp.status_code == 200:
             hash_list = resp.text.splitlines()
             for item in hash_list:
-                if item[0:35] != hexdig[5:]:
-                    pnum = 0
-            for item in hash_list:
                 if item[0:35] == hexdig[5:]:
-                    pnum = item[36:]
-            return pnum
+                    return item[36:]
+            return 0
         return resp.status_code
 
     def search_hashes(self, hsh: str) -> Union[int, str]:
