@@ -457,10 +457,11 @@ class Pwned:
         if resp.status_code == 200:
             hash_list = resp.text.splitlines()
             for item in hash_list:
+                if item[0:35] != hexdig[5:]:
+                    pnum = 0
+            for item in hash_list:
                 if item[0:35] == hexdig[5:]:
                     pnum = item[36:]
-                else:
-                    pnum = 0
             return pnum
         return resp.status_code
 
