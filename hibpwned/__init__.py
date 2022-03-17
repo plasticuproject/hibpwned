@@ -452,6 +452,7 @@ class Pwned:
         hexdig = hash_object.hexdigest()
         hexdig = hexdig.upper()
         hsh = hexdig[:5]
+        pnum = '0'
         resp = requests.get(url + hsh, headers=self.header)
         _check(resp)
         if resp.status_code == 200:

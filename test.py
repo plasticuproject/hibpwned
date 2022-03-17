@@ -15,6 +15,7 @@
 """
 
 import unittest
+import random
 from unittest import mock
 from typing import Optional, Union, List, Dict, Any
 import requests
@@ -62,6 +63,17 @@ def mocked_requests_get(*args: Any, **kwargs: Any) -> Any:
     return MockResponse(None, 404)
 
 
+def password_generator() -> str:
+    """Generate a unique randomish password."""
+    password = ''
+    for _ in range(random.randint(25, 30)):
+        rand_int = random.randint(97, 97 + 26 - 1)
+        if random.randint(0, 1):
+            rand_int = rand_int - 32
+        password += chr(rand_int)
+    return password
+
+
 class TestApiCalls(unittest.TestCase):
     """Test all module API calls."""
     email: str = "test@example.com"
@@ -74,8 +86,10 @@ class TestApiCalls(unittest.TestCase):
     def test_search_password(self) -> None:
         """Test search_password function."""
         weak = self.pwned.search_password("password")
+        strong = self.pwned.search_password(password_generator())
         if isinstance(weak, str):
             self.assertTrue(weak.isdigit())
+        self.assertEqual(strong, '0')
 
     def test_single_breach(self) -> None:
         """Test single_breach function."""
