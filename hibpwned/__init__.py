@@ -452,14 +452,15 @@ class Pwned:
         hexdig = hash_object.hexdigest()
         hexdig = hexdig.upper()
         hsh = hexdig[:5]
+        pnum = '0'
         resp = requests.get(url + hsh, headers=self.header)
         _check(resp)
         if resp.status_code == 200:
             hash_list = resp.text.splitlines()
             for item in hash_list:
                 if item[0:35] == hexdig[5:]:
-                    return item[36:]
-            return 0
+                    pnum = item[36:]
+            return pnum
         return resp.status_code
 
     def search_hashes(self, hsh: str) -> Union[int, str]:
