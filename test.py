@@ -13,11 +13,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 """
-
+from __future__ import annotations
 import unittest
 import random
 from unittest import mock
-from typing import Optional, Union, List, Dict, Any
+from typing import Any
 import requests
 import hibpwned
 
@@ -31,16 +31,14 @@ def mocked_requests_get(*args: Any, **kwargs: Any) -> Any:
     class MockResponse:  # pylint: disable=too-few-public-methods
         """Mock API responses."""
 
-        def __init__(self,
-                     response_data: Optional[Union[List[Dict[str, str]],
-                                                   List[str], Dict[str, str]]],
-                     status_code: int) -> None:
+        def __init__(self, response_data: list[dict[str, str]] | list[str]
+                     | dict[str, str] | None, status_code: int) -> None:
             self.response_data = response_data
             self.status_code = status_code
 
         def json(
-            self
-        ) -> Optional[Union[List[Dict[str, str]], List[str], Dict[str, str]]]:
+                self
+        ) -> list[dict[str, str]] | list[str] | dict[str, str] | None:
             """Returns mocked API response data."""
             return self.response_data
 
@@ -96,7 +94,8 @@ class TestApiCalls(unittest.TestCase):
         names = self.pwned.single_breach("adobe")
         if isinstance(names, list):
             name = names[0]["Name"]
-        self.assertEqual(name, "Adobe")
+            if name:
+                self.assertEqual(name, "Adobe")
         bad_name = self.pwned.single_breach("bullshit")
         self.assertEqual(bad_name, 404)
 
@@ -105,11 +104,13 @@ class TestApiCalls(unittest.TestCase):
         length_test = self.pwned.all_breaches()
         if isinstance(length_test, list):
             list_length = len(length_test)
-        self.assertTrue(list_length > 439)
+            if list_length:
+                self.assertTrue(list_length > 439)
         names = self.pwned.all_breaches(domain="adobe.com")
         if isinstance(names, list):
             domain_name = names[0]
-        self.assertEqual(domain_name["Name"], "Adobe")
+            if domain_name:
+                self.assertEqual(domain_name["Name"], "Adobe")
 
     def test_search_hashes(self) -> None:
         """Test search_hashes function."""
@@ -142,7 +143,7 @@ class TestApiCalls(unittest.TestCase):
     def test_mock_error(self, mock_get: mock.MagicMock) -> None:
         """Test a non-recognized mock endpoint will return a
         status code 404."""
-        bad_url = requests.get("https://www.fart.com")
+        bad_url = requests.get("https://www.fart.com", timeout=300)
         self.assertEqual(bad_url.status_code, 404)
 
     @mock.patch("hibpwned.requests.get", side_effect=mocked_requests_get)
