@@ -17,6 +17,15 @@ from __future__ import annotations
 import hashlib
 import requests
 
+ReturnAlias = int | list[dict[str, str | int | bool]]
+
+AltReturnAlias = int | list[dict[str, str | int | bool]] | list[str]
+
+DataAlias = list[dict[str, str | int | bool]] | dict[str, str | int | bool]
+
+AltDataAlias = (list[dict[str, str | int | bool]]
+                | dict[str, str | int | bool] | list[str])
+
 
 def _check(resp: requests.models.Response) -> None:
     """Helper function to check the response code and prints anything
@@ -196,15 +205,6 @@ class Pwned:
          >>> foo = Pwned("test@example.com", "My_App", "My_API_Key")
          >>> data = foo.search_password("BadPassword")
     """
-    ReturnAlias = (int | list[dict[str, str | int | bool]])
-
-    AltReturnAlias = (int | list[dict[str, str | int | bool]] | list[str])
-
-    DataAlias = (list[dict[str, str | int | bool]]
-                 | dict[str, str | int | bool])
-    AltDataAlias = (list[dict[str, str | int | bool]]
-                    | dict[str, str | int | bool] | list[str])
-
     url: str
     resp: requests.models.Response
     truncate_string: str
@@ -229,7 +229,6 @@ class Pwned:
         }
         self.timeout = 300
 
-    # pylint: disable=undefined-variable
     def search_all_breaches(self,
                             truncate: bool | None = False,
                             domain: str | None = None,
@@ -296,7 +295,6 @@ class Pwned:
             return alt_data
         return resp.status_code
 
-    # pylint: disable=undefined-variable
     def all_breaches(self, domain: str | None = None) -> ReturnAlias:
         """Retrieves all breached sites from the system. The result set
         can also be filtered by domain by passing the argument

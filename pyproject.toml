@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hibpwned"
-version = "1.3.8"
+version = "1.3.9"
 authors = [
   { name="plasticuproject", email="plasticuproject@pm.me" },
 ]
@@ -15,7 +15,7 @@ requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Development Status :: 5 - Production/Stable", "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
     "Operating System :: OS Independent",
     "Topic :: Utilities", "Topic :: Utilities"
 ]
